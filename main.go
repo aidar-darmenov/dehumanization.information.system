@@ -24,6 +24,9 @@ func server(_cfg *model.Configuration) *gin.Engine {
 
 	g := gin.Default()
 	g.POST("/healthcheck", _service.HealthCheck)
+	g.POST("/payment", _service.Payment)
+	g.POST("/fine", _service.Fine)
+	g.POST("/check", _service.Check)
 
 	return g
 }
