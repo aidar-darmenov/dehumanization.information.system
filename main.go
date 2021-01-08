@@ -25,8 +25,9 @@ func server(_cfg *model.Configuration) *gin.Engine {
 	g := gin.Default()
 	g.POST("/healthcheck", _service.HealthCheck)
 	g.POST("/payment", _service.Payment)
-	g.POST("/fine", _service.Fine)
-	g.POST("/check", _service.Check)
+	g.PUT("/fine", _service.Fine)
+	g.GET("/check", _service.Check)
+	g.DELETE("/remove/:licenseid", _service.Remove)
 
 	return g
 }
