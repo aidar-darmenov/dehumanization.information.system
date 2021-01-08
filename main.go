@@ -28,6 +28,7 @@ func server(_cfg *model.Configuration) *gin.Engine {
 	g.PUT("/fine", _service.Fine)
 	g.GET("/check", _service.Check)
 	g.DELETE("/remove/:licenseid", _service.Remove)
+	g.POST("/generate-data", _service.GenerateData)
 
 	return g
 }
