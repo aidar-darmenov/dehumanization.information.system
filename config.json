@@ -1,0 +1,16 @@
+{
+  "DBUser": "postgres",
+  "DBPass": "123456",
+  "DBName":"cars",
+  "DBHost": "localhost",
+  "DBPort": 5432,
+  "DBMaxOpenConns": 80,
+  "DBMaxIdleConns": 9,
+  "ConnMaxLifeTime": 7200,
+  "DBLogMode": true,
+  "DBMigrate": true,
+  "HTTPPort": 8080,
+  "RedisHost": "localhost",
+  "RedisDB": 1,
+  "RedisPassword": "123456"
+}
