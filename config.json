@@ -12,5 +12,6 @@
   "HTTPPort": 8080,
   "RedisHost": "localhost",
   "RedisDB": 1,
-  "RedisPassword": "123456"
+  "RedisPassword": "123456",
+  "WorkersNumber": 10
 }

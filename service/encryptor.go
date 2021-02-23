@@ -1,8 +1,6 @@
 package service
 
 import (
-	"crypto/sha256"
-	"encoding/json"
 	"fmt"
 	"github.com/aidar-darmenov/dehumanization.information.system/model"
 	"github.com/gin-gonic/gin"
@@ -16,23 +14,47 @@ func (s *Service) EncryptStringList(c *gin.Context) {
 		c.JSON(400, err)
 	}
 
-	channelErrors := make(chan error)
-
 	//Starting listener for errors
-	for {
-		select {
-		case errFromChannel := <-channelErrors:
-			fmt.Println(errFromChannel) //Here has to be logger used by team
-		}
-	}
-
-	for i := range stringArray.StringArray {
-		go func() {
-			byteArray, err := json.Marshal(stringArray.StringArray[i])
-			if err != nil {
-				channelErrors <- err
+	go func() {
+		for {
+			select {
+			case errFromChannel := <-s.ChannelErrors:
+				fmt.Println(errFromChannel) //Here has to be the logger used by team
 			}
-			sha256.Sum256(byteArray)
-		}()
+		}
+	}()
+
+	//Declaring and making newArray where we will assign new hashed values
+	var newArray = make([][32]byte, len(stringArray.StringArray))
+	var counter int = 0
+
+	//Starting listener for filling newArray
+	go func() {
+		var stopFiller bool = false
+		for {
+			if stopFiller {
+				break
+			}
+			select {
+			case newStringElem := <-s.ChannelFiller:
+				newArray[newStringElem.Index] = newStringElem.Value
+				counter++
+				if counter == len(stringArray.StringArray) {
+					close(s.ChannelString)
+					close(s.ChannelErrors)
+					close(s.ChannelFiller)
+					c.JSON(200, newArray)
+					stopFiller = true
+				}
+			}
+		}
+	}()
+
+	//Looping stringArray and sending elements to channel
+	for i := range stringArray.StringArray {
+		s.ChannelString <- model.StringElement{
+			Value: stringArray.StringArray[i],
+			Index: i,
+		}
 	}
 }

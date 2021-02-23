@@ -21,6 +21,7 @@ type Configuration struct {
 	RedisHost       string
 	RedisDB         int
 	RedisPassword   string
+	WorkersNumber   int
 }
 
 //ReadFile

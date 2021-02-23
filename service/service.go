@@ -8,16 +8,21 @@ import (
 type Service struct {
 	Configuration *model.Configuration
 	Manager       *db.Manager
-	ChannelString chan string
+	ChannelString chan model.StringElement
+	ChannelErrors chan error
+	ChannelFiller chan model.HashedStringElement
 }
 
 func NewCoreManager(
-	dbm *db.Manager,
+	//dbm *db.Manager,
 	config *model.Configuration,
 ) *Service {
 	coreManager := Service{
 		Configuration: config,
-		Manager:       dbm,
+		//Manager:       dbm,
+		ChannelString: make(chan model.StringElement),
+		ChannelErrors: make(chan error),
+		ChannelFiller: make(chan model.HashedStringElement),
 	}
 	return &coreManager
 }

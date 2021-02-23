@@ -3,18 +3,27 @@ package service
 import (
 	"crypto/sha256"
 	"encoding/json"
+	"github.com/aidar-darmenov/dehumanization.information.system/model"
 )
 
-func (s *Service) Worker(channelString chan string) {
+func (s *Service) StartWorkers(cfg *model.Configuration) {
+	for i := 0; i < cfg.WorkersNumber; i++ {
+		go s.Worker(s.ChannelString)
+	}
+}
+
+func (s *Service) Worker(channelString chan model.StringElement) {
 	for {
 		select {
-		case stringToEncrypt := <-s.ChannelString:
-			byteArray, err := json.Marshal(stringArray.StringArray[i])
+		case stringElementToEncrypt := <-s.ChannelString:
+			byteArray, err := json.Marshal(stringElementToEncrypt.Value)
 			if err != nil {
-				channelErrors <- err
+				s.ChannelErrors <- err
 			}
-			sha256.Sum256(byteArray)
-
+			s.ChannelFiller <- model.HashedStringElement{
+				Value: sha256.Sum256(byteArray),
+				Index: stringElementToEncrypt.Index,
+			}
 		}
 	}
 }
