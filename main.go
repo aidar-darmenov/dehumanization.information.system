@@ -4,7 +4,7 @@ import (
 	"github.com/aidar-darmenov/dehumanization.information.system/model"
 	"github.com/aidar-darmenov/dehumanization.information.system/service"
 	"github.com/gin-gonic/gin"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
+	//_ "github.com/jinzhu/gorm/dialects/postgres"
 	"strconv"
 )
 
@@ -21,7 +21,7 @@ func server(_cfg *model.Configuration) *gin.Engine {
 
 	_service := service.NewCoreManager( /*_db,*/ _cfg)
 
-	_service.StartWorkers(_cfg)
+	//_service.StartWorkers(_cfg)
 
 	g := gin.Default()
 	g.POST("/healthcheck", _service.HealthCheck)

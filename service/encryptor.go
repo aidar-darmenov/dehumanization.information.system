@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"github.com/aidar-darmenov/dehumanization.information.system/model"
 	"github.com/gin-gonic/gin"
 )
@@ -14,23 +13,14 @@ func (s *Service) EncryptStringList(c *gin.Context) {
 		c.JSON(400, err)
 	}
 
-	//Starting listener for errors
-	go func() {
-		for {
-			select {
-			case errFromChannel := <-s.ChannelErrors:
-				fmt.Println(errFromChannel) //Here has to be the logger used by team
-			}
-		}
-	}()
+	var counter int = 0
+	var stopFiller bool = false
 
 	//Declaring and making newArray where we will assign new hashed values
 	var newArray = make([][32]byte, len(stringArray.StringArray))
-	var counter int = 0
 
 	//Starting listener for filling newArray
 	go func() {
-		var stopFiller bool = false
 		for {
 			if stopFiller {
 				break
@@ -40,9 +30,6 @@ func (s *Service) EncryptStringList(c *gin.Context) {
 				newArray[newStringElem.Index] = newStringElem.Value
 				counter++
 				if counter == len(stringArray.StringArray) {
-					close(s.ChannelString)
-					close(s.ChannelErrors)
-					close(s.ChannelFiller)
 					c.JSON(200, newArray)
 					stopFiller = true
 				}

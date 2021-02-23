@@ -1,7 +1,7 @@
 package model
 
 type EncryptorStringList struct {
-	StringArray []string `json:"stringArray"`
+	StringArray []string `json:"string_array"`
 }
 
 type StringElement struct {

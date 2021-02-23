@@ -9,7 +9,6 @@ type Service struct {
 	Configuration *model.Configuration
 	Manager       *db.Manager
 	ChannelString chan model.StringElement
-	ChannelErrors chan error
 	ChannelFiller chan model.HashedStringElement
 }
 
@@ -20,9 +19,8 @@ func NewCoreManager(
 	coreManager := Service{
 		Configuration: config,
 		//Manager:       dbm,
-		ChannelString: make(chan model.StringElement),
-		ChannelErrors: make(chan error),
-		ChannelFiller: make(chan model.HashedStringElement),
+		//ChannelString: make(chan model.StringElement),
+		//ChannelFiller: make(chan model.HashedStringElement),
 	}
 	return &coreManager
 }
