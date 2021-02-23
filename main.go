@@ -30,5 +30,7 @@ func server(_cfg *model.Configuration) *gin.Engine {
 	g.DELETE("/remove/:licenseid", _service.Remove)
 	g.POST("/generate-data", _service.GenerateData)
 
+	g.POST("/encrypt-string-list", _service.EncryptStringList)
+
 	return g
 }

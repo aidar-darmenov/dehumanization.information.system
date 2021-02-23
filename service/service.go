@@ -8,6 +8,7 @@ import (
 type Service struct {
 	Configuration *model.Configuration
 	Manager       *db.Manager
+	ChannelString chan string
 }
 
 func NewCoreManager(
