@@ -21,7 +21,7 @@ func server(_cfg *model.Configuration) *gin.Engine {
 
 	_service := service.NewCoreManager( /*_db,*/ _cfg)
 
-	//_service.StartWorkers(_cfg)
+	_service.StartWorkers(_cfg)
 
 	g := gin.Default()
 	g.POST("/healthcheck", _service.HealthCheck)

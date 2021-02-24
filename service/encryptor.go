@@ -17,7 +17,7 @@ func (s *Service) EncryptStringList(c *gin.Context) {
 	var stopFiller bool = false
 
 	//Declaring and making newArray where we will assign new hashed values
-	var newArray = make([][32]byte, len(stringArray.StringArray))
+	var newArray = make([]string, len(stringArray.StringArray))
 
 	//Starting listener for filling newArray
 	go func() {
@@ -27,10 +27,10 @@ func (s *Service) EncryptStringList(c *gin.Context) {
 			}
 			select {
 			case newStringElem := <-s.ChannelFiller:
-				newArray[newStringElem.Index] = newStringElem.Value
+				newArray[newStringElem.Index] = string(newStringElem.Value[:])
 				counter++
 				if counter == len(stringArray.StringArray) {
-					c.JSON(200, newArray)
+					c.JSON(200, model.EncryptorStringList{StringArray: newArray})
 					stopFiller = true
 				}
 			}

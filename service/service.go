@@ -19,8 +19,8 @@ func NewCoreManager(
 	coreManager := Service{
 		Configuration: config,
 		//Manager:       dbm,
-		//ChannelString: make(chan model.StringElement),
-		//ChannelFiller: make(chan model.HashedStringElement),
+		ChannelString: make(chan model.StringElement),
+		ChannelFiller: make(chan model.HashedStringElement),
 	}
 	return &coreManager
 }
